@@ -2,40 +2,19 @@
 # vSphere configuration variables
 #####
 
-variable "vsphere_server" {
-  description   = "vsphere server for the environment"
-  type          = string
-  default       = "10.10.1.4"
-}
-
-variable "vsphere_user" {
-  description   = "vSphere Admin Username"
-  type          = string
-  default       = "administrator@vsphere.local"
-}
-
-variable "vsphere_password" {
-  description   = "vSphere Admin Password"
-  type          = string
-  default       = "deviceTRUST!2022"
-}
-
-variable "vsphere_datacenter" {
-  description   = "vsphere datacenter"
-  type          = string
-  default       = "democloud"
-}
-
-variable "vsphere_datastore" {
-  description   = "vsphere datastore to deploy"
-  type          = string
-  default       = "VM"
-}
-
-variable "vsphere_resourcepool" {
-  description   = "vsphere resource pool"
-  type          = string
-  default       = "democloud"
+variable vsphere {
+  type = map
+  description = ""
+  default = {
+    server             = "10.10.1.4"
+    user               = "administrator@vsphere.local"
+    password           = "deviceTRUST!2022"
+    datacenter         = "democloud"
+    host               = "10.10.1.3"
+    datastore          = "VM"
+    network            = "vSwitch_Internal_INT"
+    timezone            = 020
+  }
 }
 
 #####
