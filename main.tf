@@ -1,28 +1,28 @@
 locals {
-  networkstring = "ip=${var.vm.ip}&netmask=${var.vm.netmask}&gateway=${var.vm.gateway}"
+  networkstring = "ip=${module.variables.var.vm.ip}&netmask=${module.variables.var.vm.netmask}&gateway=${module.variables.var.vm.gateway}"
 }
 
 data "vsphere_datacenter" "dc" {
-  name = var.vsphere_datacenter
+  name = module.variables.var.vsphere.datacenter
 }
 
 data "vsphere_datastore" "datastore" {
-  name          = var.vsphere_datastore
+  name          = module.variables.var.vsphere.datastore
   datacenter_id = data.vsphere.datacenter.dc.id
 }
 
 data "vsphere_host" "host" {
-  name          = var.vm.host
+  name          = module.variables.var.vm.host
   datacenter_id = data.vsphere.datacenter.dc.id
 }
 
 data "vsphere_resource_pool" "pool" {
-  name          = var.vsphere_resourcepool
+  name          = module.variables.var.vsphere.resourcepool
   datacenter_id = data.vsphere.datacenter.dc.id
 }
 
 data "vsphere_network" "network" {
-  name          = var.vm.network
+  name          = module.variables.var.vm.network
   datacenter_id = data.vsphere.datacenter.dc.id
 }
 
@@ -33,7 +33,7 @@ data "vsphere_ovf_vm_template" "ovfLocal" {
   resource_pool_id  = data.vsphere.resource_pool.pool.id
   datastore_id      = data.vsphere.datastore.datastore.id
   host_system_id    = data.vsphere.host.host.id
-  local_ovf_path    = var.vm.ovf
+  local_ovf_path    = module.variables.var.vm.ovf
 
   ovf_network_map = {
     "VM Network" : data.vsphere.network.network.id
@@ -41,12 +41,12 @@ data "vsphere_ovf_vm_template" "ovfLocal" {
 }
 
 resource "vsphere_virtual_machine" "build_citrix-adc" {
-  name                 = var.vm.name
+  name                 = module.variables.var.vm.name
   datacenter_id        = data.vsphere.datacenter.dc.id
   resource_pool_id     = data.vsphere.resource_pool.pool.id
   datastore_id         = data.vsphere.datastore.datastore.id
   host_system_id       = data.vsphere.host.host.id
-  # folder               = var.vm.folder
+  # folder               = module.variables.var.vm.folder
   num_cpus             = data.vsphere.ovf_vm_template.ovfLocal.num_cpus
   num_cores_per_socket = data.vsphere.ovf_vm_template.ovfLocal.num_cores_per_socket
   memory               = data.vsphere.ovf_vm_template.ovfLocal.memory
@@ -57,7 +57,7 @@ resource "vsphere_virtual_machine" "build_citrix-adc" {
   network_interface {
     network_id     = values(data.vsphere.ovf_vm_template.ovfLocal.ovf_network_map)[0]
     use_static_mac = true
-    mac_address    = var.vm.mac
+    mac_address    = module.variables.var.vm.mac
   }
   
   wait_for_guest_net_timeout = -1
