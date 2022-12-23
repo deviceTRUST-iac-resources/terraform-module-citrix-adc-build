@@ -8,22 +8,22 @@ data "vsphere_datacenter" "dc" {
 
 data "vsphere_datastore" "datastore" {
   name          = var.vsphere.datastore
-  datacenter_id = data.vsphere.datacenter.dc.id
+  datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_host" "host" {
   name          = var.vm.host
-  datacenter_id = data.vsphere.datacenter.dc.id
+  datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_resource_pool" "pool" {
   name          = var.vsphere.resourcepool
-  datacenter_id = data.vsphere.datacenter.dc.id
+  datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_network" "network" {
   name          = var.vm.network
-  datacenter_id = data.vsphere.datacenter.dc.id
+  datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 
@@ -42,7 +42,7 @@ data "vsphere_ovf_vm_template" "ovfLocal" {
 
 resource "vsphere_virtual_machine" "build_citrix-adc" {
   name                 = var.vm.name
-  datacenter_id        = data.vsphere.datacenter.dc.id
+  datacenter_id        = data.vsphere_datacenter.dc.id
   resource_pool_id     = data.vsphere.resource_pool.pool.id
   datastore_id         = data.vsphere.datastore.datastore.id
   host_system_id       = data.vsphere.host.host.id
