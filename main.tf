@@ -40,7 +40,6 @@ data "vsphere_ovf_vm_template" "ovfLocal" {
   }
 }
 
-
 resource "vsphere_virtual_machine" "build_citrix-adc" {
   name                 = var.vm.name
   datacenter_id        = data.vsphere.datacenter.dc.id
