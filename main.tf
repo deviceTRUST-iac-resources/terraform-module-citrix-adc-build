@@ -79,6 +79,6 @@ resource "time_sleep" "wait_a_few_seconds" {
 
   depends_on = [vsphere_virtual_machine.build_citrix-adc]
 
-  create_duration = "120s"
-  
+  create_duration = "180s"
+
 }
