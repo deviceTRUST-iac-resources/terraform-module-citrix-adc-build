@@ -1,32 +1,52 @@
+#####
+# Wait a few seconds
+#####
 locals {
   networkstring = "ip=${var.vm.ip}&netmask=${var.vm.netmask}&gateway=${var.vm.gateway}"
 }
 
+#####
+# Wait a few seconds
+#####
 data "vsphere_datacenter" "dc" {
   name = var.vsphere.datacenter
 }
 
+#####
+# Wait a few seconds
+#####
 data "vsphere_datastore" "datastore" {
   name          = var.vsphere.datastore
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+#####
+# Wait a few seconds
+#####
 data "vsphere_host" "host" {
   name          = var.vm.host
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+#####
+# Wait a few seconds
+#####
 data "vsphere_resource_pool" "pool" {
   name          = var.vsphere.resourcepool
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+#####
+# Wait a few seconds
+#####
 data "vsphere_network" "network" {
   name          = var.vm.network
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
-
+#####
+# Wait a few seconds
+#####
 data "vsphere_ovf_vm_template" "ovfLocal" {
   name              = "TemporaryName"
   disk_provisioning = "thin"
@@ -40,6 +60,9 @@ data "vsphere_ovf_vm_template" "ovfLocal" {
   }
 }
 
+#####
+# Wait a few seconds
+#####
 resource "vsphere_virtual_machine" "build_citrix-adc" {
   name                 = var.vm.name
   datacenter_id        = data.vsphere_datacenter.dc.id
@@ -75,6 +98,9 @@ resource "vsphere_virtual_machine" "build_citrix-adc" {
   }
 }
 
+#####
+# Wait a few seconds
+#####
 resource "time_sleep" "wait_a_few_seconds" {
 
   create_duration = "180s"
