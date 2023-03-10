@@ -1,11 +1,9 @@
 #####
 # vSphere configuration variables
 #####
-variable vsphere {
-}
+variable vsphere {}
 
 #####
 # ADC VM configuration variables
 #####
-variable vm {
-}
+variable vm {}
