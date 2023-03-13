@@ -1,19 +1,19 @@
 #####
-# Wait a few seconds
+# Define Locals
 #####
 locals {
   networkstring = "ip=${var.vm.ip}&netmask=${var.vm.netmask}&gateway=${var.vm.gateway}"
 }
 
 #####
-# Wait a few seconds
+# Configure Datacenter
 #####
 data "vsphere_datacenter" "dc" {
   name = var.vsphere.datacenter
 }
 
 #####
-# Wait a few seconds
+# Configure Datastore
 #####
 data "vsphere_datastore" "datastore" {
   name          = var.vsphere.datastore
@@ -21,7 +21,7 @@ data "vsphere_datastore" "datastore" {
 }
 
 #####
-# Wait a few seconds
+# Configure Host
 #####
 data "vsphere_host" "host" {
   name          = var.vm.host
@@ -29,7 +29,7 @@ data "vsphere_host" "host" {
 }
 
 #####
-# Wait a few seconds
+# Configure Ressource Pool
 #####
 data "vsphere_resource_pool" "pool" {
   name          = var.vsphere.resourcepool
@@ -37,7 +37,7 @@ data "vsphere_resource_pool" "pool" {
 }
 
 #####
-# Wait a few seconds
+# Configure VM Network
 #####
 data "vsphere_network" "network" {
   name          = var.vm.network
@@ -45,7 +45,7 @@ data "vsphere_network" "network" {
 }
 
 #####
-# Wait a few seconds
+# Configure OVF
 #####
 data "vsphere_ovf_vm_template" "ovfLocal" {
   name              = "TemporaryName"
@@ -69,7 +69,6 @@ resource "vsphere_virtual_machine" "build_citrix-adc" {
   resource_pool_id     = data.vsphere_resource_pool.pool.id
   datastore_id         = data.vsphere_datastore.datastore.id
   host_system_id       = data.vsphere_host.host.id
-  # folder               = var.vm.folder
   num_cpus             = data.vsphere_ovf_vm_template.ovfLocal.num_cpus
   num_cores_per_socket = data.vsphere_ovf_vm_template.ovfLocal.num_cores_per_socket
   memory               = data.vsphere_ovf_vm_template.ovfLocal.memory
@@ -101,7 +100,7 @@ resource "vsphere_virtual_machine" "build_citrix-adc" {
 #####
 # Wait a few seconds
 #####
-resource "time_sleep" "wait_a_few_seconds" {
+resource "time_sleep" "build_wait_a_few_seconds" {
 
   create_duration = "180s"
 
